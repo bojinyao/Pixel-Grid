@@ -35,5 +35,5 @@ class Grid(Collection):
         return self.width * self.height
 
     def __str__(self) -> str:
-        return pformat(self.grid)
+        return pformat(self.grid, width=200)
     
