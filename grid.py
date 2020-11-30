@@ -11,8 +11,8 @@ class Grid(Collection):
     def __init__(self, height: int, width: int=None, default_color: Color=BLACK) -> None:
         if not width:
             width = height
-        self.height = height
-        self.width = width
+        self.__height = height
+        self.__width = width
         self.grid = [[default_color for _ in range(width)] for _ in range(height)]
         
     def __getitem__(self, p: Point) -> Color:
@@ -22,8 +22,8 @@ class Grid(Collection):
         self.grid[p.y][p.x] = c
         
     def __contains__(self, c: Color) -> bool:
-        for y in range(self.height):
-            for x in range(self.width):
+        for y in range(self.__height):
+            for x in range(self.__width):
                 if self.grid[y][x] == c:
                     return True
         return False
@@ -32,8 +32,14 @@ class Grid(Collection):
         return chain.from_iterable(self.grid)
             
     def __len__(self) -> int:
-        return self.width * self.height
+        return self.__width * self.__height
 
     def __str__(self) -> str:
         return pformat(self.grid, width=200)
+    
+    def __width(self) -> int:
+        return self.__width
+    
+    def __height(self) -> int:
+        return self.__height
     
