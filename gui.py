@@ -105,7 +105,7 @@ class GUI:
         t.speed(0)  # max speed
         t.shape('square')  # change shape to square for stamping
         t.penup()
-        t.setheading(0.0)
+        t.setheading(90)
         t.hideturtle()
 
     def __setup_grid(self, grid_height, grid_width) -> None:
