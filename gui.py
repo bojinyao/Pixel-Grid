@@ -52,6 +52,10 @@ class GUI:
         )
         t.colormode(255)  # must have to support rbg color codes
         t.bgcolor(self.__bg_color)
+        t.speed(0)  # max speed
+        t.shape('square')  # change shape to square for stamping
+        t.penup()
+        t.setheading(0.0)
         t.hideturtle()
 
     def __calc_cell_width_height(self) -> tuple[int, int]:
