@@ -50,13 +50,7 @@ class GUI:
             canvwidth=window_width,
             canvheight=window_height
         )
-        t.colormode(255)  # must have to support rbg color codes
-        t.bgcolor(self.__bg_color)
-        t.speed(0)  # max speed
-        t.shape('square')  # change shape to square for stamping
-        t.penup()
-        t.setheading(0.0)
-        t.hideturtle()
+        self.__init_canvas()
 
     def __calc_cell_width_height(self) -> tuple[int, int]:
         m = self.__margin_len
@@ -97,11 +91,15 @@ class GUI:
             t.color(c)
             t.stamp()
         t.update()
+        return True
 
     def clear(self) -> None:
         self.__grid.refill()
         t.clearscreen()
         # After the above call, basically need to reinitialize turtle...
+        self.__init_canvas()
+
+    def __init_canvas(self) -> None:
         t.colormode(255)  # must have to support rbg color codes
         t.bgcolor(self.__bg_color)
         t.speed(0)  # max speed
