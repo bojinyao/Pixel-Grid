@@ -1,4 +1,4 @@
-from typing import Iterator
+from typing import Iterator, Callable
 from point import Point
 
 from collections.abc import Collection
@@ -56,7 +56,7 @@ class Grid(Collection):
         self.__width = newWidth
         self.__height = newHeight
 
-    def transform(self, discard_val: object, func: function[[int, int, object], bool]) -> None:
+    def transform(self, discard_val: object, func: Callable[[int, int, object], bool]) -> None:
         """Run filter using an input function
 
         Args:
@@ -66,7 +66,7 @@ class Grid(Collection):
             if not func(x, y, o):
                 self.__grid[y][x] = discard_val
                 
-    def apply(self, func: function[[int, int, object], object]) -> None:
+    def apply(self, func: Callable[[int, int, object], object]) -> None:
         """Run map using an input function
 
         Args:

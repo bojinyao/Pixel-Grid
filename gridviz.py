@@ -1,3 +1,5 @@
+from typing import Callable
+
 from grid import Grid
 from gui import GUI
 from inspect import signature
@@ -34,7 +36,7 @@ class Viz:
         self.__gui.clear()
         self.__gui.render()
 
-    def __process_func(self, func: function) -> function:
+    def __process_func(self, func: Callable) -> Callable:
         sig = signature(func)
         params = sig.parameters
         p_len = len(params)
@@ -47,7 +49,7 @@ class Viz:
         else:
             return None
 
-    def filter(self, func: function) -> None:
+    def filter(self, func: Callable) -> None:
         f = self.__process_func(func)
         if not f:
             print("Invalid input function")
@@ -57,5 +59,5 @@ class Viz:
         self.__gui.render()
         
         
-    def map(self, func: function) -> None:
+    def map(self, func: Callable) -> None:
         ...
