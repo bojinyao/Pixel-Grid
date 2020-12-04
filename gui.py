@@ -156,6 +156,9 @@ class GUI:
     def bg_color(self) -> Color:
         return self.__bg_color
 
+    def cell_color(self) -> Color:
+        return self.__cell_color
+
     def window_height(self) -> int:
         return self.__window_height
 
