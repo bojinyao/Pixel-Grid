@@ -7,11 +7,8 @@ from inspect import signature
 
 """Main file
 
-This also acts as the controller of the app
+This also acts as the controller of the visualizer
 """
-
-_DEFAULT_W_HEIGHT = 600
-
 _DEFAULT_CELL_COLOR = BLACK
 _DEFAULT_BG_COLOR = WHITE
 
@@ -24,7 +21,7 @@ class Viz:
     def __init__(self, 
                  height: int,
                  width: int = None,
-                 window_height: int = _DEFAULT_W_HEIGHT,
+                 window_height: int = _DEFAULT_WINDOW_HEIGHT,
                  window_width: int = None,
                  margin_len: int = _DEFAULT_MARGIN_LENGTH,
                  cell_color: Color = _DEFAULT_CELL_COLOR,
@@ -46,7 +43,7 @@ class Viz:
         self.gui.render()
 
 
-    def reset(self) -> None:
+    def clear(self) -> None:
         """Reset to original settings and redraw canvas
         """
         self.gui.reset()
