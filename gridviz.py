@@ -27,23 +27,23 @@ class Viz:
                  cell_color: Color = _DEFAULT_CELL_COLOR,
                  bg_color: Color = _DEFAULT_BG_COLOR) -> None:
               
-        self.grid = Grid(height, width, cell_color)
+        self.__grid = Grid(height, width, cell_color)
         
-        self.gui = GUI(self.grid,
+        self.__gui = GUI(self.__grid,
                        window_height,
                        window_width, 
                        margin_len, 
                        cell_color, 
                        bg_color)
         
-        self.gui.render()
+        self.__gui.render()
 
 
     def reset(self) -> None:
         """Reset to original settings and redraw canvas
         """
-        self.gui.reset()
-        self.gui.render()
+        self.__gui.reset()
+        self.__gui.render()
 
     def __process_func(self, func: Callable) -> Callable:
         sig = signature(func)
@@ -63,9 +63,9 @@ class Viz:
         if not f:
             print("Invalid input function")
             return
-        self.grid.transform(self.gui.bg_color(), f)
-        self.gui.clear_screen()
-        self.gui.render()
+        self.__grid.transform(self.__gui.bg_color(), f)
+        self.__gui.clear_screen()
+        self.__gui.render()
         
         
     def map(self, func: Callable) -> None:
@@ -73,12 +73,12 @@ class Viz:
         if not f:
             print("Invalid input function")
             return
-        self.grid.apply(f)
-        self.gui.clear_screen()
-        self.gui.render()
+        self.__grid.apply(f)
+        self.__gui.clear_screen()
+        self.__gui.render()
 
 
     # ----------------------------------- Debug ---------------------------------- #
     
     def _print_grid(self) -> None:
-        print(self.grid)
+        print(self.__grid)
