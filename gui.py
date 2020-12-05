@@ -11,19 +11,16 @@ import turtle as t
 _TURTLE_DEFAULT_HEIGHT = 20
 _TURTLE_DEFAULT_WIDTH = 20
 
-_DEFAULT_MARGIN_LENGTH = 2
-_DEFAULT_WINDOW_HEIGHT = 600
-
 
 class GUI:
 
     def __init__(self,
                  grid: Grid,
-                 window_height: int = _DEFAULT_WINDOW_HEIGHT,
-                 window_width: int = None,
-                 margin_len: int = _DEFAULT_MARGIN_LENGTH,
-                 cell_color: Color = BLACK,
-                 bg_color: Color = WHITE) -> None:
+                 window_height: int,
+                 window_width: int,
+                 margin_len: int,
+                 cell_color: Color,
+                 bg_color: Color) -> None:
         """GUI to display pixels
 
         Args:
@@ -44,7 +41,6 @@ class GUI:
         self.__cell_color = cell_color
         self.__bg_color = bg_color
 
-        self.__grid.fill(self.__cell_color)
         # -------------------------- Setup turtle Parameters ------------------------- #
         t.screensize(
             canvwidth=window_width,
@@ -93,11 +89,18 @@ class GUI:
         t.update()
         return True
 
-    def clear(self) -> None:
-        self.__grid.refill()
+    def clear_screen(self) -> None:
+        """ Clears the canvas
+        """
         t.clearscreen()
         # After the above call, basically need to reinitialize turtle...
         self.__init_canvas()
+        
+    def reset(self) -> None:
+        """ Clear canvas and set grid to original filling
+        """
+        self.__grid.refill()
+        self.clear_screen()
 
     def __init_canvas(self) -> None:
         t.colormode(255)  # must have to support rbg color codes

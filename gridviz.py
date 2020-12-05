@@ -2,6 +2,7 @@ from typing import Callable
 
 from grid import Grid
 from gui import GUI
+from colors import BLACK, Color, WHITE
 from inspect import signature
 
 """Main file
@@ -11,6 +12,12 @@ This also acts as the controller of the app
 
 _DEFAULT_W_HEIGHT = 600
 
+_DEFAULT_CELL_COLOR = BLACK
+_DEFAULT_BG_COLOR = WHITE
+
+_DEFAULT_MARGIN_LENGTH = 2
+_DEFAULT_WINDOW_HEIGHT = 600
+
 
 class Viz:
     
@@ -18,23 +25,32 @@ class Viz:
                  height: int,
                  width: int = None,
                  window_height: int = _DEFAULT_W_HEIGHT,
-                 window_width: int = None) -> None:        
-        self.__grid = Grid(height, width)
-        self.__gui = GUI(self.__grid, window_height, window_width)
+                 window_width: int = None,
+                 margin_len: int = _DEFAULT_MARGIN_LENGTH,
+                 cell_color: Color = _DEFAULT_CELL_COLOR,
+                 bg_color: Color = _DEFAULT_BG_COLOR) -> None:
+              
+        self.grid = Grid(height, width, cell_color)
+        
+        self.gui = GUI(self.grid,
+                       window_height,
+                       window_width, 
+                       margin_len, 
+                       cell_color, 
+                       bg_color)
         
 
     def display(self) -> None:
         """Update Display
         """
-        self.__gui.render()
+        self.gui.render()
 
 
     def reset(self) -> None:
         """Reset to original settings and redraw canvas
         """
-        self.__grid.refill()
-        self.__gui.clear()
-        self.__gui.render()
+        self.gui.reset()
+        self.gui.render()
 
     def __process_func(self, func: Callable) -> Callable:
         sig = signature(func)
@@ -54,9 +70,9 @@ class Viz:
         if not f:
             print("Invalid input function")
             return
-        self.__grid.transform(self.__gui.bg_color(), f)
-        self.__gui.clear()
-        self.__gui.render()
+        self.grid.transform(self.gui.bg_color(), f)
+        self.gui.clear_screen()
+        self.gui.render()
         
         
     def map(self, func: Callable) -> None:
