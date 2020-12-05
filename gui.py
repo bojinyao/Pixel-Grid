@@ -111,6 +111,37 @@ class GUI:
         t.setheading(90)
         t.hideturtle()
 
+    # ------------------------------ Get Attributes ------------------------------ #
+
+    def bg_color(self) -> Color:
+        return self.__bg_color
+
+    def cell_color(self) -> Color:
+        return self.__cell_color
+
+    def window_height(self) -> int:
+        return self.__window_height
+
+    def window_width(self) -> int:
+        return self.__window_width
+
+    # ------------------------------ Set Attributes ------------------------------ #
+
+    def set_bg_color(self, bg_color: Color) -> None:
+        self.__bg_color = bg_color
+        t.bgcolor(bg_color)
+
+    def set_grid(self, grid: Grid) -> None:
+        self.__grid = grid
+
+    def set_window(self, height: int, width: int = None) -> None:
+        if width is None:
+            width = height
+        self.__window_height = height
+        self.__window_width = width
+
+    # ---------------------------------- Unused ---------------------------------- #
+
     def __setup_grid(self, grid_height, grid_width) -> None:
         if grid_height > grid_width:
             self.__pixel_size = self.__window_height // grid_height
@@ -154,34 +185,6 @@ class GUI:
                 if func(x, y):
                     self.draw_pixel(x, y)
 
-    # ------------------------------ Get Attributes ------------------------------ #
-
-    def bg_color(self) -> Color:
-        return self.__bg_color
-
-    def cell_color(self) -> Color:
-        return self.__cell_color
-
-    def window_height(self) -> int:
-        return self.__window_height
-
-    def window_width(self) -> int:
-        return self.__window_width
-
-    # ------------------------------ Set Attributes ------------------------------ #
-
-    def set_bg_color(self, bg_color: Color) -> None:
-        self.__bg_color = bg_color
-        t.bgcolor(bg_color)
-
-    def set_grid(self, grid: Grid) -> None:
-        self.__grid = grid
-
-    def set_window(self, height: int, width: int = None) -> None:
-        if width is None:
-            width = height
-        self.__window_height = height
-        self.__window_width = width
 
 
 """
