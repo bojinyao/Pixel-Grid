@@ -36,14 +36,10 @@ class Viz:
                        cell_color, 
                        bg_color)
         
-
-    def display(self) -> None:
-        """Update Display
-        """
         self.gui.render()
 
 
-    def clear(self) -> None:
+    def reset(self) -> None:
         """Reset to original settings and redraw canvas
         """
         self.gui.reset()
@@ -73,4 +69,16 @@ class Viz:
         
         
     def map(self, func: Callable) -> None:
-        ...
+        f = self.__process_func(func)
+        if not f:
+            print("Invalid input function")
+            return
+        self.grid.apply(f)
+        self.gui.clear_screen()
+        self.gui.render()
+
+
+    # ----------------------------------- Debug ---------------------------------- #
+    
+    def _print_grid(self) -> None:
+        print(self.grid)
