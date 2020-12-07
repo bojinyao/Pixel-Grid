@@ -57,7 +57,7 @@ class GUI:
         return width, height
 
     def __config_turtle_stamp(self, width: int, height: int) -> bool:
-        if width <= 0 or height <= 0:
+        if width <= 1 or height <= 1:
             return False
         t.turtlesize(width/_TURTLE_DEFAULT_WIDTH,
                      height/_TURTLE_DEFAULT_HEIGHT, 0)

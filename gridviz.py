@@ -36,14 +36,31 @@ class Viz:
                        cell_color, 
                        bg_color)
         
-        self.__gui.render()
+        if not self.__gui.render():
+            print("Too many cells to display in window")
+
+    def resize(self, height: int, width: int = None) -> None:
+        assert type(height) is int
+        if width: assert type(width) is int
+        """ Resize height and width of number of cells.
+            Has no effect on the display window.
+
+        Args:
+            height (int): new number of cells vertically.
+            width (int, optional): new number of cells horizontally. Defaults to new height.
+        """
+        if not width:
+            width = height
+        self.__grid.resize(height, width)
+        self.reset()
 
 
     def reset(self) -> None:
         """Reset to original settings and redraw canvas
         """
         self.__gui.reset()
-        self.__gui.render()
+        if not self.__gui.render():
+            print("Too many cells to display in window")
 
     def __process_func(self, func: Callable) -> Callable:
         sig = signature(func)
