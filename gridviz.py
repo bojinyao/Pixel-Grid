@@ -26,7 +26,10 @@ class Viz:
                  margin_len: int = _DEFAULT_MARGIN_LENGTH,
                  cell_color: Color = _DEFAULT_CELL_COLOR,
                  bg_color: Color = _DEFAULT_BG_COLOR) -> None:
-              
+        
+        self.__bg_color = bg_color
+        self.__cell_color = cell_color
+        
         self.__grid = Grid(height, width, cell_color)
         
         self.__gui = GUI(self.__grid,
@@ -36,8 +39,10 @@ class Viz:
                        cell_color, 
                        bg_color)
         
-        if not self.__gui.render():
-            print("Too many cells to display in window")
+        self.__try_render()
+
+    def display(self) -> None:
+        self.__try_render()
 
     def resize(self, height: int, width: int = None) -> None:
         assert type(height) is int
@@ -59,8 +64,7 @@ class Viz:
         """Reset to original settings and redraw canvas
         """
         self.__gui.reset()
-        if not self.__gui.render():
-            print("Too many cells to display in window")
+        self.__try_render()
 
     def __process_func(self, func: Callable) -> Callable:
         sig = signature(func)
@@ -74,6 +78,10 @@ class Viz:
             return func
         else:
             return None
+
+    def __try_render(self):
+        if not self.__gui.render():
+            print("Too many cells to display in window")
 
     def filter(self, func: Callable) -> None:
         f = self.__process_func(func)
@@ -94,6 +102,21 @@ class Viz:
         self.__gui.clear_screen()
         self.__gui.render()
 
+    def scale_up(self) -> None:
+        self.__grid.scale_up({self.__bg_color: self.__bg_color})
+        self.__gui.clear_screen()
+        success = self.__gui.render()
+        if not success:
+            self.__grid.scale_down()
+            print("Too many cells to display in window")
+        
+    def scale_down(self) -> None:
+        success = self.__grid.scale_down()
+        if not success:
+            print("Cannot scale down anymore")
+        else:
+            self.__gui.clear_screen()
+            self.__gui.render()
 
     # ----------------------------------- Debug ---------------------------------- #
     

@@ -5,6 +5,7 @@ from collections.abc import Collection
 from itertools import chain, product
 from pprint import pformat
 from copy import deepcopy
+from math import sqrt
 
 
 class Grid(Collection):
@@ -48,13 +49,13 @@ class Grid(Collection):
     def refill(self) -> None:
         self.fill(self.__fill)
 
-    def resize(self, newHeight: int, newWidth: int) -> None:
-        grid = [[self.__fill for _ in range(newWidth)] for _ in range(newHeight)]
-        for y, x in product(range(min(self.__height, newHeight)), range(min(self.__width, newWidth))):
+    def resize(self, new_height: int, new_width: int) -> None:
+        grid = [[self.__fill for _ in range(new_width)] for _ in range(new_height)]
+        for y, x in product(range(min(self.__height, new_height)), range(min(self.__width, new_width))):
             grid[y][x] = self.__grid[y][x]
         self.__grid = grid
-        self.__width = newWidth
-        self.__height = newHeight
+        self.__width = new_width
+        self.__height = new_height
 
     def transform(self, discard_val: object, func: Callable[[int, int, object], bool]) -> None:
         """Run filter using an input function
@@ -75,8 +76,35 @@ class Grid(Collection):
         for (x, y), o in self.__iter__():
             self.__grid[y][x] = func(x, y, o)
             
+            
+    def scale_up(self, replacements: dict[object, object]) -> None:
+        old_width = self.__width
+        old_height = self.__height
+        old_list = self.grid_list()
+        new_width = self.__width ** 2
+        new_height = self.__height ** 2
+        self.resize(new_height, new_width)
+        for y, x in product(range(old_height), range(old_width)):
+            if old_list[y][x] in replacements:
+                content = replacements[old_list[y][x]]
+                for j, i in product(range(old_height), range(old_width)):
+                    self.__grid[j + y * old_height][i + x * old_width] = content
+            else:
+                for j, i in product(range(old_height), range(old_width)):
+                    self.__grid[j + y * old_height][i + x * old_width] = old_list[j][i]
+            
+            
+    def scale_down(self) -> bool:
+        old_width = self.__width
+        old_height = self.__height
+        new_width = sqrt(old_width)
+        new_height = sqrt(old_height)
+        if not (new_width == int(new_width) and new_height == int(new_height)):
+            return False
+        self.resize(int(new_height), int(new_width))
+        return True
 
-    def grid(self) -> list[list[object]]:
+    def grid_list(self) -> list[list[object]]:
         """Return a deepcopy of underlying list of lists
 
         Returns:

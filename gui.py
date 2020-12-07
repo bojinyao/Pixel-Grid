@@ -102,6 +102,9 @@ class GUI:
         self.__grid.refill()
         self.clear_screen()
 
+    def _set_grid(self, new_grid: Grid):
+        self.__grid = new_grid
+
     def __init_canvas(self) -> None:
         t.colormode(255)  # must have to support rbg color codes
         t.bgcolor(self.__bg_color)
