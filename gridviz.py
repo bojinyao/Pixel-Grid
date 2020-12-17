@@ -4,6 +4,7 @@ from grid import Grid
 from gui import GUI
 from colors import BLACK, Color, WHITE
 from inspect import signature
+from point import Point
 
 """Main file
 
@@ -117,6 +118,27 @@ class Viz:
         else:
             self.__gui.clear_screen()
             self.__gui.render()
+
+    def track(self, obj, mapping) -> None:
+        self.__tracked = obj
+        self.__mapping = mapping
+        self.reset()
+        # resize
+        self.resize(len(obj), len(obj[0]))
+        self.update()
+
+
+    def update(self):
+        colors = {'white': Color(255,255,255), 
+        'black': Color(0,0,0), 'red': Color(255,0,0), 
+        'green': Color(0,255,0), 'blue': Color(0,0,255)}
+        for r in range(len(self.__tracked)):
+            for c in range(len(self.__tracked[0])):
+                color = self.__mapping[self.__tracked[r][c]]
+                if color in colors:
+                    color = colors[color]
+                self.__grid[Point(c,r)] = color
+        self.__gui.render()
 
     # ----------------------------------- Debug ---------------------------------- #
     
