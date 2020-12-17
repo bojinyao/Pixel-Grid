@@ -17,8 +17,8 @@ if __name__ == "__main__":
     viz.track(grid, mapping)
 
     for move in path:
-        time.sleep(1)
+        time.sleep(0.5)
         grid[move[0]][move[1]] = 'player'
         grid[move[2]][move[3]] = 'path'
         viz.update()
-    time.sleep(5)
+    time.sleep(2)
